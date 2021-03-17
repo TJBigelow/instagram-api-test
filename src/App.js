@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Grid from "./Grid";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [images, setImages] = useState([]);
+  const access = "";
+  useEffect(() => {
+    fetch(
+      `https://graph.instagram.com/me/media?fields=id,caption&access_token=${access}`
+    )
+      .then((resp) => resp.json())
+      .then((resp) => setImages(resp.data));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Grid images={images} access={access} />
     </div>
   );
 }
